@@ -98,7 +98,7 @@ export default function CardInput(props) {
                 ))}
                 <button className={styles.button} onClick={(e) => handleSubmit(e)}  >Submit</button>
             </div>
-            <h2>Cards</h2>
+            <h2>{list.length > 0 ? "Cards" : ""}</h2>
             <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
                 {list.map((item, index) =>
                     <div key={index} className={styles.listContainer}>
