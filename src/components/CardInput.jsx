@@ -89,6 +89,12 @@ export default function CardInput(props) {
         }
     }
 
+    const handleDelete = (e, num) => {
+        let temp = [...list]
+        temp = temp.filter((item, index) => num !== index)
+        setList(temp)
+    }
+
     return (
         <div >
             <div className={styles.container}>
@@ -103,7 +109,7 @@ export default function CardInput(props) {
                 {list.map((item, index) =>
                     <div key={index} className={styles.listContainer}>
                         <div>{item}</div>
-                        <button className={styles.deleteButton} >Del{index}</button>
+                        <button className={styles.deleteButton} onClick={(e) => handleDelete(e, index)} >Del{index}</button>
                     </div>
                 )}
             </div>
