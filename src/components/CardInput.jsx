@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import styles from "./CardInput.module.css"
+import CardListItems from "./CardListItems"
 
 export default function CardInput(props) {
     const [value, setValue] = useState(new Array(4).fill(""))
@@ -144,14 +145,7 @@ export default function CardInput(props) {
             <h2>{list.length > 0 ? "Cards" : ""}</h2>
 
             {/* card list */}
-            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
-                {list.map((item, index) =>
-                    <div key={index} className={styles.listContainer}>
-                        <div>{item}</div>
-                        <button className={styles.deleteButton} onClick={(e) => handleDelete(e, index)} >Del{index}</button>
-                    </div>
-                )}
-            </div>
+            <CardListItems list={list} handleDelete={handleDelete} ></CardListItems>
         </div>
     )
 }
