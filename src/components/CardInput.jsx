@@ -10,9 +10,13 @@ export default function CardInput(props) {
         elements[0].focus()
     }, [])
 
+    /* updating input values */
     const handleChange = (e, i) => {
+
         let tempValue = [...value]
+
         tempValue[i] = e.target.value
+
         setValue(tempValue)
 
         if (e.target.value.length === 4) {
@@ -28,12 +32,16 @@ export default function CardInput(props) {
         }
     }
 
-    const handleEnter = (e) => {
-        if (e.key == "Enter") {
+    /* on pressing enter or backspace */
+    const handleKeyChange = (e, index) => {
+
+        if (e.key === "Enter") {
             let temp = value.reduce((a, item) => a + item)
+
             if (temp.length < 16) {
                 alert("please enter 16 digits")
             }
+
             else {
                 if (isNaN(temp)) {
                     alert("please enter digits only")
@@ -44,11 +52,20 @@ export default function CardInput(props) {
                 }
             }
         }
+
+        else if (e.key === "Backspace") {
+            if (elements[index].value.length === 0 && index !== 0) {
+                elements[index - 1].focus()
+            }
+        }
     }
 
+    /* on clicking submit button */
     const handleSubmit = (e) => {
         e.preventDefault()
+
         let temp = value.reduce((a, item) => a + item)
+
         if (temp.length < 16) {
             alert("please enter 16 digits")
         }
@@ -64,20 +81,33 @@ export default function CardInput(props) {
     }
 
     const handlePaste = (e, index) => {
+
         e.preventDefault()
+
         let text = e.clipboardData.getData('text')
+
+        /* to check pasted items are numbers */
+        if (isNaN(text)) {
+            alert("please paste digits only")
+        }
+
+        /* handling pasting in first column */
         if (index === 0) {
             if (text.length > 16) {
                 alert("Please enter 16 digits only")
             }
             else {
                 let offset = 0
+                /* dividing digits into parts */
                 for (let i = 0; i < 4; i++) {
                     let temp = text.substr(offset, 4)
+
                     elements[i].value = temp
+
                     let tempValue = [...value]
                     tempValue[i] = temp
                     setValue(tempValue)
+
                     if (temp.length < 4) {
                         elements[i].focus()
                         break;
@@ -89,6 +119,7 @@ export default function CardInput(props) {
         }
     }
 
+    /* handling card delete */
     const handleDelete = (e, num) => {
         let temp = [...list]
         temp = temp.filter((item, index) => num !== index)
@@ -97,14 +128,22 @@ export default function CardInput(props) {
 
     return (
         <div >
+            {/* input container */}
             <div className={styles.container}>
+
                 <h1>Card Number<sup>*</sup></h1>
-                {value.map((item, index) => (
-                    <input className={styles.input} onKeyPress={(e) => handleEnter(e)} onPaste={(e) => handlePaste(e, index)} maxLength="4" onChange={(e) => handleChange(e, index)} key={index} ref={(n) => (elements[index] = n)} />
-                ))}
-                <button className={styles.button} onClick={(e) => handleSubmit(e)}  >Submit</button>
+
+                <div>
+                    {value.map((item, index) => (
+                        <input className={styles.input} onKeyDown={(e) => handleKeyChange(e, index)} onPaste={(e) => handlePaste(e, index)} maxLength="4" onChange={(e) => handleChange(e, index)} key={index} ref={(n) => (elements[index] = n)} />
+                    ))}
+                    <button className={styles.button} onClick={(e) => handleSubmit(e)}  >Submit</button>
+                </div>
             </div>
+
             <h2>{list.length > 0 ? "Cards" : ""}</h2>
+
+            {/* card list */}
             <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
                 {list.map((item, index) =>
                     <div key={index} className={styles.listContainer}>
