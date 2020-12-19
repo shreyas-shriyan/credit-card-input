@@ -138,8 +138,9 @@ export default function CardInput(props) {
                     {value.map((item, index) => (
                         <input className={styles.input} onKeyDown={(e) => handleKeyChange(e, index)} onPaste={(e) => handlePaste(e, index)} maxLength="4" onChange={(e) => handleChange(e, index)} key={index} ref={(n) => (elements[index] = n)} />
                     ))}
-                    <button className={styles.button} onClick={(e) => handleSubmit(e)}  >Submit</button>
                 </div>
+
+                <button className={styles.button} onClick={(e) => handleSubmit(e)}>Submit</button>
             </div>
 
             <h2>{list.length > 0 ? "Cards" : ""}</h2>
